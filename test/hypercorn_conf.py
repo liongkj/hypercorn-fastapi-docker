@@ -7,8 +7,7 @@ use_workers_per_core = float(workers_per_core)
 
 web_concurrency = os.getenv("WEB_CONCURRENCY", None)
 
-max_workers = os.getenv("MAX_WORKERS", None)
-if max_workers:
+if max_workers := os.getenv("MAX_WORKERS", None):
     use_max_workers = int(max_workers)
 else:
     use_max_workers = None
@@ -17,14 +16,12 @@ host = os.getenv("HOST", "0.0.0.0")
 ssl_port = os.getenv("SSL_PORT", "443")
 tcp_port = os.getenv("TCP_PORT", "80")
 
-bind_env = os.getenv("BIND", None)
-if bind_env:
+if bind_env := os.getenv("BIND", None):
     use_bind = bind_env
 else:
     use_bind = "{0}:{1}".format(host, ssl_port)
 
-insecure_bind_env = os.getenv("INSECURE_BIND", None)
-if insecure_bind_env:
+if insecure_bind_env := os.getenv("INSECURE_BIND", None):
     use_insecure_bind = insecure_bind_env
 else:
     use_insecure_bind = "{0}:{1}".format(host, tcp_port)
@@ -72,7 +69,7 @@ log_data = {
     "keepalive": keepalive,
     "errorlog": errorlog,
     "accesslog": accesslog,
-    
+
     "workers_per_core": workers_per_core,
     "use_max_workers": use_max_workers,
     "host": host,
