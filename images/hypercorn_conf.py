@@ -6,7 +6,7 @@ import json
 def booleanize(value) -> bool:
     if value is None:
         return False
-    
+
     falsy = ["no", "n", "0", "false"]
     truly = ["yes", "y", "1", "true"]
 
@@ -15,7 +15,7 @@ def booleanize(value) -> bool:
     elif value.lower() in truly:
         return True
     else:
-        raise TypeError("Non boolean-like value {}".format(value))
+        raise TypeError(f"Non boolean-like value {value}")
 
 
 #ssl opts
@@ -42,13 +42,12 @@ use_quic_bind = os.getenv("QUIC_BIND", None)
 use_insecure_bind = os.getenv("INSECURE_BIND", None)
 
 #assert not(bool(use_insecure_bind) != all([use_ssl, use_tcp])), "INSECURE_BIND Must be used only when USE_SSL and USE_TCP are both set"
-if use_ssl and use_tcp:
-    if not use_insecure_bind:
-        use_insecure_bind = "{}:{}".format(host, tcp_port)
+if use_ssl and use_tcp and not use_insecure_bind:
+    use_insecure_bind = f"{host}:{tcp_port}"
 
 use_bind = os.getenv("BIND", None)
 if not use_bind:
-    use_bind = "{}:{}".format(host, ssl_port if use_ssl else tcp_port)
+    use_bind = f"{host}:{ssl_port if use_ssl else tcp_port}"
 
 
 #workers
